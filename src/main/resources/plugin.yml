@@ -1,0 +1,8 @@
+name: RFTB
+version: 1.0
+main: net.imjoycepg.mc.RFTB
+commands:
+  arena:
+    description: run main arena
+  rftb:
+    description: main command
