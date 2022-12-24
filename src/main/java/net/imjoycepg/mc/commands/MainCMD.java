@@ -24,18 +24,21 @@ public class MainCMD implements CommandExecutor {
                     RFTB.getInstance().getSettings().save();
                 }
 
-                if(args[0].equalsIgnoreCase("leave")){
-
-                }
-
-                if(args[0].equalsIgnoreCase("join")){
-
-                }
-
                 if(args[0].equalsIgnoreCase("help")){
 
                 }
 
+                if(args[0].equalsIgnoreCase("leave")){
+                    RFTB.getInstance().getArenaManager().removePlayer(player);
+                }
+            }
+
+            if(args.length == 2) {
+                if(args[0].equalsIgnoreCase("join")){
+                    String nameArena = args[1];
+
+                    RFTB.getInstance().getArenaManager().joinPlayer(player, nameArena);
+                }
             }
 
         }else{

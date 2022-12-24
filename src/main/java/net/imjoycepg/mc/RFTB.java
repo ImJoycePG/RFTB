@@ -24,8 +24,10 @@ public class RFTB extends JavaPlugin {
     public void onEnable() {
         instance = this;
         settings = new ConfigFile(this, "config.yml");
+        util.loadWorlds();
+        util.loadArenas();
+
         this.getCommand("arena").setExecutor(new ArenaCMD());
         this.getCommand("rftb").setExecutor(new MainCMD());
-        util.loadWorlds();
     }
 }

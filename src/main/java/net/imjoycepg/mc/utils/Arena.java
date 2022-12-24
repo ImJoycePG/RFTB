@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.imjoycepg.mc.RFTB;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,7 @@ import java.util.UUID;
 @ToString
 public class Arena {
     private String nameArena;
-    private ArrayList<UUID> players;
+    private ArrayList<UUID> players = new ArrayList<>();
     private GameState gameState;
 
     private int maxPlayers;
@@ -47,22 +47,38 @@ public class Arena {
         this.timeArena = this.yml.getInt("Time");
         this.maxPlayers = this.yml.getInt("MaxPlayers");
         this.minPlayers = this.yml.getInt("MinPlayers");
-        this.lobbyArena = RFTB.getInstance().getLocationUtil().deserialize("Lobby");
-        this.selectHunter = RFTB.getInstance().getLocationUtil().deserialize("SelectHunter");
-        this.startSpawn = RFTB.getInstance().getLocationUtil().deserialize("StartSpawn");
 
         if(this.lobbyArena == null || this.selectHunter == null || this.startSpawn == null){
             this.gameState = GameState.STOPPED;
+        }else{
+            this.gameState = GameState.STARTING;
+            this.lobbyArena = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("Lobby"));
+            this.selectHunter = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("SelectHunter"));
+            this.startSpawn = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("StartSpawn"));
         }
     }
 
     public void addPlayer(Player player){
-        this.players.add(player.getUniqueId());
+        if(this.gameState == GameState.INGAME){
+            player.sendMessage("La partida ya empezo");
+        }
+        else if(this.gameState == GameState.STOPPED){
+            player.sendMessage("La partida esta detenida");
+        }
+        else if(this.gameState == GameState.FINISHED){
+            player.sendMessage("La partida esta terminado");
+        }
+        else if(this.gameState == GameState.STARTING){
+            player.teleport(this.lobbyArena);
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+            player.setFlying(false);
+            player.setAllowFlight(false);
+            player.setHealth(20.0);
+            player.setFireTicks(0);
+            this.players.add(player.getUniqueId());
+
+            player.updateInventory();
+        }
     }
-
-    public void removePlayer(Player player){
-        this.players.remove(player.getUniqueId());
-    }
-
-
 }

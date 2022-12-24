@@ -2,7 +2,6 @@ package net.imjoycepg.mc.commands;
 
 import net.imjoycepg.mc.RFTB;
 import net.imjoycepg.mc.utils.Arena;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -70,6 +69,13 @@ public class ArenaCMD implements CommandExecutor {
 
                         RFTB.getInstance().getArenaManager().setStartSpawn(nameArena, RFTB.getInstance().getLocationUtil().serialize(player.getLocation()));
                         player.sendMessage("Los datos fueron guardados.");
+                    }
+
+                    if(args[0].equalsIgnoreCase("save")){
+                        String nameArena = args[1];
+
+                        RFTB.getInstance().getArenaManager().loadArena(nameArena);
+                        player.sendMessage("Se guardo el mapa correctamente.");
                     }
                 }
 
