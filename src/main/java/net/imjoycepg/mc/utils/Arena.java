@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.imjoycepg.mc.RFTB;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -50,11 +50,13 @@ public class Arena {
 
         if(this.lobbyArena == null || this.selectHunter == null || this.startSpawn == null){
             this.gameState = GameState.STOPPED;
+            System.out.println("DEBUG 1 = NULL LOCATIONS");
         }else{
             this.gameState = GameState.STARTING;
             this.lobbyArena = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("Lobby"));
             this.selectHunter = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("SelectHunter"));
             this.startSpawn = RFTB.getInstance().getLocationUtil().deserialize(this.yml.getString("StartSpawn"));
+            System.out.println("DEBUG 2 = NO NULL LOCATIONS");
         }
     }
 
@@ -69,7 +71,7 @@ public class Arena {
             player.sendMessage("La partida esta terminado");
         }
         else if(this.gameState == GameState.STARTING){
-            player.teleport(this.lobbyArena);
+            Bukkit.getServer().getPlayer(player.getUniqueId()).teleport(this.lobbyArena);
             player.getInventory().clear();
             player.getInventory().setArmorContents(null);
             player.setFlying(false);

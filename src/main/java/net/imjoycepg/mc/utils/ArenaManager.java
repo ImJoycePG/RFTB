@@ -128,6 +128,11 @@ public class ArenaManager {
     }
 
     public void joinPlayer(Player player, String nameArena){
+        if(this.isInGame(player)){
+            player.sendMessage("No puedes estar mas de 1 partida.");
+            return;
+        }
+
         Arena arena = this.getArena(nameArena);
         arena.addPlayer(player);
     }
@@ -142,7 +147,7 @@ public class ArenaManager {
         }
 
         if(arena == null){
-            player.sendMessage("Movimiento invalido");
+            player.sendMessage("No estas en ningun mapa");
             return;
         }
 

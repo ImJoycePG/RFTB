@@ -75,6 +75,7 @@ public class ArenaCMD implements CommandExecutor {
                         String nameArena = args[1];
 
                         RFTB.getInstance().getArenaManager().loadArena(nameArena);
+
                         player.sendMessage("Se guardo el mapa correctamente.");
                     }
                 }
